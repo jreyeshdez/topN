@@ -52,11 +52,13 @@ public class TopN {
     public static void main(String[] args) throws Exception{
         Configuration configuration = new Configuration()
         String [] others = new GenericOptionsParser(configuration,args).getRemainingArgs()
-        if(others.length != 3){
+        if(others.length < 2 || others.length > 3){
             System.err.println("Usage: TopN <file-in> <folder-out> <N>")
             System.exit(2)
         }
-	configuration.setInt("N", others[2]?.toInteger())
+	if(others.length == 3){
+	    configuration.setInt("N", others[2]?.toInteger())
+	}
         Job job = Job.getInstance(configuration,"Top N numbers given a file")
         job.setJarByClass(TopN.class)
         job.setMapperClass(TopNMapper.class)
